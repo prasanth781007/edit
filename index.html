@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GTEC Canteen – Fresh & Tasty College Food</title>
+    <meta name="description"
+        content="GTEC Canteen offers fresh, delicious South Indian meals for students and staff. Browse our menu, place orders easily, and enjoy great canteen food." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- Razorpay Checkout Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body>
+
+    <!-- ========== HEADER ========== -->
+    <header class="header" id="header">
+        <div class="container header-inner">
+            <a href="#home" class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-utensils"></i></span>
+                <div class="logo-text">
+                    <span class="logo-main">GTEC</span>
+                    <span class="logo-sub">Canteen</span>
+                </div>
+            </a>
+
+            <nav class="nav" id="nav">
+                <ul class="nav-list">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#menu" class="nav-link">Menu</a></li>
+                    <li><a href="#order" class="nav-link">My Order</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li id="authNavItem"><a href="login.html" class="nav-link" style="font-weight: 700; color: var(--primary);"><i class="fa-solid fa-user"></i> Login</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <button class="cart-btn" id="cartBtn" onclick="toggleCart()">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+                <button class="hamburger" id="hamburger" onclick="toggleNav()">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <div class="container hero-content">
+            <div class="hero-text">
+                <span class="hero-badge">🍽️ Fresh &amp; Tasty Every Day</span>
+                <h1 class="hero-title">Welcome to<br /><span class="highlight">GTEC Canteen</span></h1>
+                <p class="hero-desc">Delicious South Indian meals crafted fresh for GTEC students &amp; staff. Order
+                    your favourites in seconds!</p>
+                <div class="hero-btns">
+                    <a href="#menu" class="btn btn-primary">Explore Menu</a>
+                    <a href="#order" class="btn btn-outline">View My Order</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat"><span class="stat-num">10+</span><span class="stat-label">Menu Items</span></div>
+                    <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Fresh Daily</span>
+                    </div>
+                    <div class="stat"><span class="stat-num">Fast</span><span class="stat-label">Service</span></div>
+                </div>
+            </div>
+            <div class="hero-img-wrap">
+                <div class="hero-img-ring"></div>
+                <div class="hero-img-blob"></div>
+                <img src="assets/hero-food.png" alt="GTEC Canteen Food" class="hero-img" id="heroImg"
+                    onerror="this.style.display='none';document.getElementById('heroFallback').style.display='flex'" />
+                <div class="hero-img-fallback" id="heroFallback" style="display:none;">🍛</div>
+                <div class="floating-tag tag1">🥞 Dosa – ₹20</div>
+                <div class="floating-tag tag2">☕ Tea – ₹10</div>
+            </div>
+        </div>
+        <div class="scroll-down"><a href="#menu"><i class="fa-solid fa-chevron-down"></i></a></div>
+    </section>
+
+    <!-- ========== MENU ========== -->
+    <section class="section" id="menu">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-badge">Our Menu</span>
+                <h2 class="section-title">What's Cooking Today?</h2>
+                <p class="section-desc">Browse and add items to your order with just one click</p>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs" id="filterTabs">
+                <button class="filter-btn active" onclick="filterMenu('all', this)">All</button>
+                <button class="filter-btn" onclick="filterMenu('breakfast', this)">Breakfast</button>
+                <button class="filter-btn" onclick="filterMenu('snacks', this)">Snacks</button>
+                <button class="filter-btn" onclick="filterMenu('drinks', this)">Drinks</button>
+                <button class="filter-btn" onclick="filterMenu('meals', this)">Meals</button>
+            </div>
+
+            <!-- Search -->
+            <div class="search-wrap">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="menuSearch" placeholder="Search food items…" oninput="searchMenu()" />
+            </div>
+
+            <div class="menu-grid" id="menuGrid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ORDER CART SIDEBAR ========== -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <aside class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2><i class="fa-solid fa-bag-shopping"></i> My Order</h2>
+            <button class="cart-close" onclick="toggleCart()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty" id="cartEmpty">
+                <i class="fa-solid fa-bowl-food"></i>
+                <p>Your order is empty.<br />Add items from the menu!</p>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display:none">
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cartTotal">₹0</span>
+            </div>
+            <div class="cart-name-wrap">
+                <label for="customerName"><i class="fa-solid fa-user"
+                        style="margin-right:5px;color:var(--primary)"></i>Your Name *</label>
+                <input type="text" id="customerName" placeholder="e.g. Ravi Kumar" />
+            </div>
+            <div class="cart-name-wrap" style="margin-top:8px;">
+                <label for="customerPhone"><i class="fa-solid fa-phone"
+                        style="margin-right:5px;color:var(--primary)"></i>Phone Number *</label>
+                <input type="tel" id="customerPhone" placeholder="e.g. 9876543210" maxlength="10" />
+            </div>
+            <!-- Payment Method Selection -->
+            <div class="payment-method-wrap" style="margin-top:12px;">
+                <label style="font-size:.78rem;font-weight:600;color:var(--primary);margin-bottom:8px;display:block;">
+                    <i class="fa-solid fa-credit-card" style="margin-right:5px;"></i>Payment Method *
+                </label>
+                <div class="payment-options" id="paymentOptions">
+                    <label class="pay-opt">
+                        <input type="radio" name="payMethod" value="upi" checked />
+                        <span class="pay-opt-box"><i class="fa-solid fa-mobile-screen-button"></i> UPI</span>
+                    </label>
+                    <label class="pay-opt">
+                        <input type="radio" name="payMethod" value="card" />
+                        <span class="pay-opt-box"><i class="fa-solid fa-credit-card"></i> Card</span>
+                    </label>
+                    <label class="pay-opt">
+                        <input type="radio" name="payMethod" value="netbanking" />
+                        <span class="pay-opt-box"><i class="fa-solid fa-building-columns"></i> Net Banking</span>
+                    </label>
+                    <label class="pay-opt">
+                        <input type="radio" name="payMethod" value="cash" />
+                        <span class="pay-opt-box"><i class="fa-solid fa-money-bill-wave"></i> Cash on Pickup</span>
+                    </label>
+                </div>
+            </div>
+            <button class="btn btn-primary w-full" onclick="placeOrder()" id="placeOrderBtn" style="margin-top:14px;">
+                <i class="fa-solid fa-lock"></i> Pay &amp; Place Order
+            </button>
+            <button class="btn btn-danger w-full mt-sm" onclick="clearCart()">Clear Order</button>
+        </div>
+    </aside>
+
+    <!-- ========== MY ORDER SECTION ========== -->
+    <section class="section section-alt" id="order">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-badge">Track Order</span>
+                <h2 class="section-title">My Order Summary</h2>
+            </div>
+            <div class="order-panel">
+                <div class="order-panel-empty" id="orderPanelEmpty">
+                    <i class="fa-solid fa-receipt"></i>
+                    <p>No orders placed yet. Browse the menu and place your order!</p>
+                    <a href="#menu" class="btn btn-primary">Go to Menu</a>
+                </div>
+                <div id="orderPanelList" style="display:none">
+                    <div class="order-table-wrap">
+                        <table class="order-table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Rate</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderTableBody"></tbody>
+                            <tfoot>
+                                <tr class="order-total-row">
+                                    <td colspan="3"><strong>Grand Total</strong></td>
+                                    <td id="orderGrandTotal"><strong>₹0</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="order-meta">
+                        <p>Order by: <strong id="orderCustomerName">–</strong></p>
+                        <p>Date: <strong id="orderDate">–</strong></p>
+                    </div>
+                    <button class="btn btn-primary" onclick="toggleCart()">Edit Order</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========== CONTACT ========== -->
+    <section class="section section-alt" id="contact">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-badge">Contact</span>
+                <h2 class="section-title">Find Us</h2>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <i class="fa-solid fa-location-dot contact-icon"></i>
+                    <h4>Location</h4>
+                    <p>GTEC Campus, Main Building Ground Floor, Canteen Block</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fa-solid fa-clock contact-icon"></i>
+                    <h4>Timings</h4>
+                    <p>Mon – Sat: 8:00 AM – 5:00 PM<br />Sunday: Closed</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fa-solid fa-phone contact-icon"></i>
+                    <h4>Contact</h4>
+                    <p>+91 98765 43210<br />canteen@gtec.edu.in</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-brand">
+                    <a href="#home" class="logo logo-light">
+                        <span class="logo-icon"><i class="fa-solid fa-utensils"></i></span>
+                        <div class="logo-text">
+                            <span class="logo-main">GTEC</span>
+                            <span class="logo-sub">Canteen</span>
+                        </div>
+                    </a>
+                    <p class="footer-tagline">Fresh food, happy students. Serving GTEC since day one.</p>
+                    <div class="footer-socials">
+                        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#order">My Order</a></li>
+                        <li><a href="#manage">Manage Items</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Menu Highlights</h5>
+                    <ul>
+                        <li><a href="#menu">🥞 Idli &amp; Vada</a></li>
+                        <li><a href="#menu">🍛 Meals</a></li>
+                        <li><a href="#menu">🫓 Dosa</a></li>
+                        <li><a href="#menu">☕ Tea &amp; Coffee</a></li>
+                        <li><a href="#menu">🍱 Pongal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Canteen Hours</h5>
+                    <ul class="hours-list">
+                        <li><span>Breakfast</span><span>8:00 – 10:30 AM</span></li>
+                        <li><span>Snacks</span><span>10:30 – 11:30 AM</span></li>
+                        <li><span>Lunch</span><span>12:00 – 2:00 PM</span></li>
+                        <li><span>Evening</span><span>3:30 – 5:00 PM</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GTEC Canteen. All rights reserved.</p>
+                <p>Made with <i class="fa-solid fa-heart" style="color:#ef4444"></i> for GTEC Students</p>
+            </div>
+        </div>
+        <!-- Admin Access Button -->
+        <div class="admin-access-bar">
+            <a href="admin.html" class="admin-access-btn" id="adminAccessBtn">
+                <i class="fa-solid fa-shield-halved"></i> Admin Panel
+            </a>
+        </div>
+    </footer>
+
+    <!-- ========== TOAST ========== -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ========== ORDER CONFIRM MODAL ========== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-icon success"><i class="fa-solid fa-circle-check"></i></div>
+            <h3>Order Placed!</h3>
+            <p id="modalMsg">Your order has been received. Please collect from the counter.</p>
+            <button class="btn btn-primary" onclick="closeModal()">Done</button>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+
+</html>

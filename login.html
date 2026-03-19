@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up - GTEC Canteen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: radial-gradient(ellipse at top, #1e293b 0%, #0b1120 100%);
+        }
+        .login-box {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+        .login-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-d));
+            display: grid;
+            place-items: center;
+            font-size: 1.5rem;
+            margin: 0 auto 20px;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+        }
+        .login-box h2 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--text);
+        }
+        .login-error {
+            color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            display: none;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+        .input-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border);
+        }
+        .divider:not(:empty)::before { margin-right: 15px; }
+        .divider:not(:empty)::after { margin-left: 15px; }
+        .google-btn {
+            background: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        .google-btn:hover {
+            background: #f1f1f1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+        }
+        .google-btn img {
+            width: 20px;
+            margin-right: 10px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--muted);
+            font-size: 0.85rem;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-box">
+            <div class="login-logo"><i class="fa-solid fa-utensils"></i></div>
+            <h2>Welcome Back</h2>
+            <div id="authError" class="login-error"></div>
+            
+            <form id="loginForm" onsubmit="return false;">
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="email" placeholder="Email Address" required />
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" placeholder="Password" required />
+                </div>
+                
+                <button type="submit" id="emailLoginBtn" class="btn btn-primary w-full" style="margin-bottom: 10px; border-radius: 10px; padding: 12px;">Login</button>
+                <button type="button" id="emailSignupBtn" class="btn btn-outline w-full" style="border-radius: 10px; padding: 12px;">Sign Up</button>
+            </form>
+            
+            <div class="divider">OR</div>
+            
+            <button id="googleLoginBtn" class="btn w-full google-btn" style="border-radius: 10px; padding: 12px; display: flex; align-items: center; justify-content: center;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google">
+                Continue with Google
+            </button>
+            
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Menu</a>
+        </div>
+    </div>
+    <script type="module" src="login.js"></script>
+</body>
+</html>
